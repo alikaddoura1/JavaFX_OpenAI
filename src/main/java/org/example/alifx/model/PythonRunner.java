@@ -1,4 +1,4 @@
-package model;
+package org.example.alifx.model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
