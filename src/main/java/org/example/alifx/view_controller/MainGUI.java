@@ -22,7 +22,7 @@ public class MainGUI extends Application {
     }
 
     public void registerHandler() {
-
+//hi
         input.setOnAction(e -> {
             PythonRunner runner = new PythonRunner();
             runner.doIt(input.getText());
