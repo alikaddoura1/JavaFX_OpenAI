@@ -4,7 +4,6 @@ module org.example.alifx {
 
 
     opens org.example.alifx to javafx.fxml;
-    exports org.example.alifx;
     exports org.example.alifx.view_controller;
     opens org.example.alifx.view_controller to javafx.fxml;
 }
