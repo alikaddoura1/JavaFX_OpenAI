@@ -12,7 +12,7 @@ public class PythonRunner {
 	public static void doIt(String name) {
 		// Full path to your Python executable
         String pythonExecutablePath = "/usr/bin/python3";  // Adjust this path according to your system
-        String pythonScriptPath = "/Users/alikaddoura/Documents/Script/test.py";
+        String pythonScriptPath = "Script/test.py";
         
         
 
