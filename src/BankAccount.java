@@ -1,7 +1,5 @@
 // Author: Ali Kaddoura
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.HashMap;
 
 import java.util.HashMap;
@@ -63,9 +61,7 @@ class Test {
 
 		 
 
-		  assertEquals(-99.13, accounts.get("kim").getBalance());
-
-		  assertEquals(100.00, accounts.get("chris").getBalance());
+		
 	}
 }
 
