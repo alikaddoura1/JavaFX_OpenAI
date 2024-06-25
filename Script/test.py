@@ -10,15 +10,16 @@ import os
 
 import kagglehub
 
+kagglehub.login()
+
 # Download latest version
-path = kagglehub.model_download("keras/gemma/keras/gemma_1.1_instruct_2b_en")
+path = kagglehub.model_download("google/gemma/tfLite/gemma-2b-it-gpu-int4")
 
 print("Path to model files:", path)
-
-""" # Download latest version
-def generate_text():
+# Download latest version
+def generate_text(paths):
     # Load Gemma model (example assumes it's a Keras model)
-    path = "Script/gemma-keras-gemma_1.1_instruct_2b_en-v3/model.weights.h5"
+    path = paths
     gemma_model = tf.keras.models.load_model(path)
 
     # Use the model for inference
@@ -28,12 +29,12 @@ def generate_text():
     result = gemma_model.predict([input_text], max_length=max_length)
     print("Generated Text:", result)
 
-
- def main():
+""" 
+def main():
     # Read data from standard input
     data = sys.stdin.read()
-    print("Data received:", data) 
+    print("Data received:", data)  """
 
 if __name__ == "__main__":
-    generate_text()
- """
+    generate_text(path)
+ 
