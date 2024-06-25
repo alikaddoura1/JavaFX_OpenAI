@@ -2,6 +2,7 @@
 
 import sys
 import keras_nlp
+import keras
 import tensorflow as tf
 from keras import models
 
@@ -9,32 +10,34 @@ import os
 
 
 import kagglehub
+from kaggle.api.kaggle_api_extended import KaggleApi
 
-kagglehub.login()
 
-# Download latest version
-path = kagglehub.model_download("google/gemma/tfLite/gemma-2b-it-gpu-int4")
+os.environ['alikaddoura1'] = 'your_kaggle_username'
+os.environ['d2079a394a618d91228854f2804b2070'] = 'your_kaggle_key'
+
+api = KaggleApi()
+api.authenticate()
+
+
+path = kagglehub.model_download("keras/gemma/keras/gemma_1.1_instruct_2b_en")
 
 print("Path to model files:", path)
+
+
 # Download latest version
-def generate_text(paths):
-    # Load Gemma model (example assumes it's a Keras model)
-    path = paths
-    gemma_model = tf.keras.models.load_model(path)
+def generate_text():
+    gemma_lm = keras_nlp.models.GemmaCausalLM.from_preset("gemma_2b_en")
+    gemma_lm.generate("Keras is a", max_length=30)
 
-    # Use the model for inference
-    # Example:
-    input_text = "This is "
-    max_length = 30
-    result = gemma_model.predict([input_text], max_length=max_length)
-    print("Generated Text:", result)
+    # Generate with batched prompts.
+    gemma_lm.generate(["Keras is a", "I want to say"], max_length=30)
 
-""" 
+ 
 def main():
     # Read data from standard input
     data = sys.stdin.read()
-    print("Data received:", data)  """
+    print("Data received:", data) 
 
 if __name__ == "__main__":
-    generate_text(path)
- 
+    gen
