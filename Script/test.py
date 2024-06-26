@@ -4,40 +4,28 @@ import sys
 import keras_nlp
 import keras
 import tensorflow as tf
-from keras import models
-
+from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM, AutoModelForSeq2SeqLM, BlenderbotConfig, AutoModelForCausalLM
+import transformers
+from huggingface_hub import login
 import os
 
 
-import kagglehub
-from kaggle.api.kaggle_api_extended import KaggleApi
+
+login(token="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")  # Replace with your actual token
+
+access_token  = "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"
+
+os.environ["HF_TOKEN"] = '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'
 
 
-os.environ['alikaddoura1'] = 'your_kaggle_username'
-os.environ['d2079a394a618d91228854f2804b2070'] = 'your_kaggle_key'
+# Load the tokenizer and model
+model_name = "google/gemma-7b"  
+tokenizer = AutoTokenizer.from_pretrained(model_name, token = access_token)
+model = AutoModelForCausalLM.from_pretrained(model_name, token = access_token) 
 
-api = KaggleApi()
-api.authenticate()
+# Tokenize input text
+input_text = "The quick brown fox jumps over the lazy dog."
+inputs = tokenizer(input_text, return_tensors="tf")
 
-
-path = kagglehub.model_download("keras/gemma/keras/gemma_1.1_instruct_2b_en")
-
-print("Path to model files:", path)
-
-
-# Download latest version
-def generate_text():
-    gemma_lm = keras_nlp.models.GemmaCausalLM.from_preset("gemma_2b_en")
-    gemma_lm.generate("Keras is a", max_length=30)
-
-    # Generate with batched prompts.
-    gemma_lm.generate(["Keras is a", "I want to say"], max_length=30)
-
- 
-def main():
-    # Read data from standard input
-    data = sys.stdin.read()
-    print("Data received:", data) 
-
-if __name__ == "__main__":
-    gen
+# Generate predictions
+outputs = model.generate(inpu
