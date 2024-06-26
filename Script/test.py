@@ -28,4 +28,16 @@ input_text = "The quick brown fox jumps over the lazy dog."
 inputs = tokenizer(input_text, return_tensors="tf")
 
 # Generate predictions
-outputs = model.generate(inpu
+outputs = model.generate(inputs["input_ids"], max_length=50)
+generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+print(generated_text)
+
+ 
+def main():
+    # Read data from standard input
+    data = sys.stdin.read()
+    print("Data received:", data) 
+
+
+ 
