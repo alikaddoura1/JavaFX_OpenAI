@@ -3,20 +3,15 @@
 import sys
 import keras_nlp
 import keras
-import tensorflow as tf
 from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM, AutoModelForSeq2SeqLM, BlenderbotConfig, AutoModelForCausalLM
-import transformers
 from huggingface_hub import login
 import os
 
-
-
-login(token="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")  # Replace with your actual token
+login(token="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") 
 
 access_token  = "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"
 
 os.environ["HF_TOKEN"] = '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'
-
 
 # Load the tokenizer and model
 model_name = "google/gemma-7b"  
@@ -33,7 +28,6 @@ generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 print(generated_text)
 
- 
 def main():
     # Read data from standard input
     data = sys.stdin.read()
