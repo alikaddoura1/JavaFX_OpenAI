@@ -1,37 +1,31 @@
 # Author: Ali Kaddoura
 
+import openai
 import sys
-import keras_nlp
-import keras
-from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM, AutoModelForSeq2SeqLM, BlenderbotConfig, AutoModelForCausalLM
-from huggingface_hub import login
-import os
 
-login(token="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") 
+# Replace 'your-api-key' with your actual API key
+openai.api_key = 'sk-proj-wxaIharEy2H6qlCLPwv4T3BlbkFJRagYdUw6YqYm2t1Sk6Ah'
 
-access_token  = "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"
+def ask_question(question):
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": question}
+        ]
+    )
+    return response['choices'][0]['message']['content']
 
-os.environ["HF_TOKEN"] = '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'
+# Example usage
+question = "What is the capital of France?"
+answer = ask_question(question)
+print(answer)
 
-# Load the tokenizer and model
-model_name = "google/gemma-7b"  
-tokenizer = AutoTokenizer.from_pretrained(model_name, token = access_token)
-model = AutoModelForCausalLM.from_pretrained(model_name, token = access_token) 
-
-# Tokenize input text
-input_text = "The quick brown fox jumps over the lazy dog."
-inputs = tokenizer(input_text, return_tensors="tf")
-
-# Generate predictions
-outputs = model.generate(inputs["input_ids"], max_length=50)
-generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-
-print(generated_text)
-
+""" 
 def main():
     # Read data from standard input
     data = sys.stdin.read()
     print("Data received:", data) 
-
+ """
 
  
