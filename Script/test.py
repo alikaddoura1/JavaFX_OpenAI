@@ -2,6 +2,13 @@
 
 import openai
 import sys
+import keras_nlp
+import keras
+import tensorflow as tf
+import transformers
+from transformers import AutoTokenizer, TFAutoModelForSeq2SeqLM, AutoModelForSeq2SeqLM, BlenderbotConfig, AutoModelForCausalLM
+from huggingface_hub import login
+import os
 
 # Replace 'your-api-key' with your actual API key
 openai.api_key = 'sk-proj-wxaIharEy2H6qlCLPwv4T3BlbkFJRagYdUw6YqYm2t1Sk6Ah'

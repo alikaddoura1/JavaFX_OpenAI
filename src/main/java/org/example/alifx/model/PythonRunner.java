@@ -52,10 +52,5 @@ public class PythonRunner {
             e.printStackTrace();
         }
          
-	}
-	
-	
-	
-	
-   
+	}   
 }
