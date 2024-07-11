@@ -1,18 +1,20 @@
 package org.example.alifx.view_controller;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.example.alifx.model.PythonRunner;
+import org.example.alifx.model.GPT;
 
 import java.io.IOException;
 
 public class MainGUI extends Application {
 
-    private TextField input = new TextField("Enter name");
+    private TextField input = new TextField("Enter question");
     private Label name = new Label("Nothing");
 
     @Override
@@ -24,17 +26,19 @@ public class MainGUI extends Application {
     public void registerHandler() {
 //hi
         input.setOnAction(e -> {
-            PythonRunner runner = new PythonRunner();
-            runner.doIt(input.getText());
-            name.setText(runner.output.toString());
+            GPT gpt = new GPT();
+            String output = gpt.getOutput(input.getText());
+            name.setText(output);
         });
     }
 
     public void createGUI(Stage primaryStage) {
         GridPane inputGrid = new GridPane();
 
-        inputGrid.add(input, 0, 0);
-        inputGrid.add(name, 0, 2);
+        inputGrid.setAlignment(Pos.CENTER);
+        inputGrid.setVgap(10);
+        inputGrid.add(input, 20, 20);
+        inputGrid.add(name, 20, 22);
 
 
 

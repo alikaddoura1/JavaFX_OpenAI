@@ -9,7 +9,7 @@ public class GPT {
 
     public static String chatGPT(String prompt) {
         String url = "https://api.openai.com/v1/chat/completions";
-        String apiKey = "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";
+        String apiKey = "sk-proj-QVUW1waf9sMufbn4XVKnT3BlbkFJjYAHpPK7ndjcJTgyTHor";
         String model = "gpt-3.5-turbo";
 
         try {
@@ -53,6 +53,10 @@ public class GPT {
 
         return response.substring(start, end);
 
+    }
+
+    public String getOutput(String question){
+        return chatGPT(question);
     }
 
     public static void main(String[] args) {
