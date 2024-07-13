@@ -3,13 +3,24 @@ package org.example.alifx.model;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.*;
 import java.util.Scanner;
+
 
 public class GPT {
 
-    public static String chatGPT(String prompt) {
+
+
+    public static String chatGPT(String prompt)  {
         String url = "https://api.openai.com/v1/chat/completions";
-        String apiKey = "sk-proj-QVUW1waf9sMufbn4XVKnT3BlbkFJjYAHpPK7ndjcJTgyTHor";
+
+        //EnvReader envReader = new EnvReader(".env");
+
+        // Get the API key
+        //String apiKey = envReader.get("API_KEY");
+
+
+        String apiKey = "sk-None-nXFQClSbnoB8h5qZyVpuT3BlbkFJaE5WKjsVw9rrpD0aDdFt";
         String model = "gpt-3.5-turbo";
 
         try {
@@ -38,11 +49,11 @@ public class GPT {
             }
             br.close();
 
-            // calls the method to extract the message.
+            // calls the method to extract the response from gpt.
             return extractMessageFromJSONResponse(response.toString());
 
         } catch (IOException e) {
-            return "shi didnt work";
+            return apiKey;
         }
     }
 

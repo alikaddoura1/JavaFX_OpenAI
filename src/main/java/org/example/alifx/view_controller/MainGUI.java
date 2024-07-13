@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import org.example.alifx.model.PythonRunner;
 import org.example.alifx.model.GPT;
 
 import java.io.IOException;
@@ -29,6 +28,7 @@ public class MainGUI extends Application {
             GPT gpt = new GPT();
             String output = gpt.getOutput(input.getText());
             name.setText(output);
+            input.setText("");
         });
     }
 
@@ -39,7 +39,6 @@ public class MainGUI extends Application {
         inputGrid.setVgap(10);
         inputGrid.add(input, 20, 20);
         inputGrid.add(name, 20, 22);
-
 
 
         Scene scene = new Scene(inputGrid, 1000, 1000);
