@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class GPT {
 
     private static final String URL = "https://api.openai.com/v1/chat/completions";
-    private static final String API_KEY = "sk-None-zW466KciIKokjz8FbiliT3BlbkFJ1N3Yadbb3VhsMU4iWcQb";
+    private static final String API_KEY = "";
     private static final String MODEL = "gpt-3.5-turbo";
     private ArrayList<String> conversationHistory;
 
