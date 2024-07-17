@@ -3,35 +3,43 @@ package org.example.alifx.model;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-
 
 public class GPT {
 
+    private static final String URL = "https://api.openai.com/v1/chat/completions";
+    private static final String API_KEY = "sk-None-zW466KciIKokjz8FbiliT3BlbkFJ1N3Yadbb3VhsMU4iWcQb";
+    private static final String MODEL = "gpt-3.5-turbo";
+    private ArrayList<String> conversationHistory;
 
+    public GPT() {
+        this.conversationHistory = new ArrayList<>();
+    }
 
-    public static String chatGPT(String prompt)  {
-        String url = "https://api.openai.com/v1/chat/completions";
-
-        //EnvReader envReader = new EnvReader(".env");
-
-        // Get the API key
-        //String apiKey = envReader.get("API_KEY");
-
-
-        String apiKey = "sk-None-nXFQClSbnoB8h5qZyVpuT3BlbkFJaE5WKjsVw9rrpD0aDdFt";
-        String model = "gpt-3.5-turbo";
+    public String chatGPT(String prompt) {
+        conversationHistory.add("{\"role\": \"user\", \"content\": \"" + prompt + "\"}");
 
         try {
-            URL obj = new URL(url);
+            URL obj = new URL(URL);
             HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("Authorization", "Bearer " + apiKey);
+            connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
             connection.setRequestProperty("Content-Type", "application/json");
 
-            // The request body
-            String body = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"user\", \"content\": \"" + prompt + "\"}]}";
+            // Build the conversation history into the request body
+            StringBuilder messages = new StringBuilder();
+            for (String message : conversationHistory) {
+                messages.append(message).append(",");
+            }
+
+            // Remove the trailing comma
+            if (messages.length() > 0) {
+                messages.setLength(messages.length() - 1);
+            }
+
+            String body = "{\"model\": \"" + MODEL + "\", \"messages\": [" + messages.toString() + "]}";
             connection.setDoOutput(true);
             OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
             writer.write(body);
@@ -41,7 +49,6 @@ public class GPT {
             // Response from ChatGPT
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
-
             StringBuffer response = new StringBuffer();
 
             while ((line = br.readLine()) != null) {
@@ -49,38 +56,42 @@ public class GPT {
             }
             br.close();
 
-            // calls the method to extract the response from gpt.
-            return extractMessageFromJSONResponse(response.toString());
+            // Extract the message and add it to the history
+            String responseMessage = extractMessageFromJSONResponse(response.toString());
+            conversationHistory.add("{\"role\": \"assistant\", \"content\": \"" + responseMessage + "\"}");
+
+            return responseMessage;
 
         } catch (IOException e) {
-            return apiKey;
+            return "shi didnt work";
         }
     }
 
     public static String extractMessageFromJSONResponse(String response) {
-        int start = response.indexOf("content")+ 11;
-
+        int start = response.indexOf("content") + 11;
         int end = response.indexOf("\"", start);
-
         return response.substring(start, end);
-
     }
 
-    public String getOutput(String question){
+    public String getOutput(String question) {
         return chatGPT(question);
     }
 
     public static void main(String[] args) {
+        GPT gpt = new GPT();
+        Scanner input = new Scanner(System.in);
 
-        System.out.println("What is your question?");
+        while (true) {
+            System.out.println("What is your question? (Type 'exit' to quit)");
+            String question = input.nextLine();
 
-        Scanner input = new Scanner(System.in);  // Create a Scanner object
+            if (question.equalsIgnoreCase("exit")) {
+                break;
+            }
 
+            System.out.println(gpt.getOutput(question));
+        }
 
-        String question = input.nextLine();  // Read user input
-
-
-        System.out.println(chatGPT(question));
-
+        input.close();
     }
 }
