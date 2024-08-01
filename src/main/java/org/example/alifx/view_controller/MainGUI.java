@@ -1,11 +1,11 @@
 package org.example.alifx.view_controller;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.example.alifx.model.GPT;
 
@@ -13,8 +13,8 @@ import java.io.IOException;
 
 public class MainGUI extends Application {
 
-    private TextField input = new TextField("Enter question");
-    private Label name = new Label("Nothing");
+    private TextField input = new TextField();
+    private TextArea conversation = new TextArea();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -23,27 +23,50 @@ public class MainGUI extends Application {
     }
 
     public void registerHandler() {
-//hi
         input.setOnAction(e -> {
-            GPT gpt = new GPT();
-            String output = gpt.getOutput(input.getText());
-            name.setText(output);
-            input.setText("");
+            String userQuestion = input.getText();
+            if (!userQuestion.trim().isEmpty()) {
+                GPT gpt = new GPT();
+                String output = gpt.getOutput(userQuestion);
+
+                // Update conversation history
+                conversation.appendText("You: " + userQuestion + "\n");
+                conversation.appendText("Bot: " + output + "\n\n");
+
+                input.setText("");
+            }
         });
     }
 
     public void createGUI(Stage primaryStage) {
-        GridPane inputGrid = new GridPane();
+        // Configure input area
+        input.setPromptText("Ask a question...");
+        input.setPrefWidth(800);
 
-        inputGrid.setAlignment(Pos.CENTER);
-        inputGrid.setVgap(10);
-        inputGrid.add(input, 20, 20);
-        inputGrid.add(name, 20, 22);
+        // Configure conversation area
+        conversation.setEditable(false);
+        conversation.setWrapText(true);
 
+        // Scroll pane for conversation area
+        ScrollPane scrollPane = new ScrollPane(conversation);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
 
-        Scene scene = new Scene(inputGrid, 1000, 1000);
+        // Layout for input and button
+        HBox inputBox = new HBox(input);
+        inputBox.setAlignment(Pos.CENTER);
+        inputBox.setPadding(new Insets(10));
+
+        // Main layout
+        BorderPane mainLayout = new BorderPane();
+        mainLayout.setCenter(scrollPane);
+        mainLayout.setBottom(inputBox);
+        mainLayout.setPadding(new Insets(10));
+
+        // Scene setup
+        Scene scene = new Scene(mainLayout, 900, 600);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Classifier");
+        primaryStage.setTitle("ChatGPT Clone");
         primaryStage.show();
     }
 
